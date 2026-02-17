@@ -70,6 +70,28 @@
 
 }
 
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.marquee-group {
+  display: flex;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* .animate-scroll {
+  animation: scroll 16s linear infinite;
+} */
 @layer base {
   * {
     @apply border-border;

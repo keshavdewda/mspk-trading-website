@@ -11,6 +11,21 @@ import { MarketTicker } from "@/components/market-ticker";
 
 
 export default function Home() {
+  const backgrounds = [
+    "/images/a.jpg",
+    "/images/b.jpg",
+    "/images/c.jpg",
+  ];
+
+  const [bgIndex, setBgIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgIndex((prev) => (prev + 1) % backgrounds.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
   const signals = MOCK_SIGNALS.slice(0, 3);
   const fullText = "Make Informed Decisions.";
   const typingSpeed = 70;
@@ -52,124 +67,153 @@ export default function Home() {
       <MarketTicker />
 
       {/* Hero Section - Fintech Style */}
-      <section className="relative pt-20 pb-20 md:pb-32 overflow-hidden">
+      <section className="pt-28 md:pt-36 pb-20 md:pb-32">
 
-        {/* Background Grid & Spotlights */}
-        <div className="absolute inset-0 z-0 w-full h-full bg-background">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-[0.2]"></div>
-          <div className="absolute top-0 left-0 right-0 h-[500px] w-full bg-gradient-to-b from-primary/5 via-transparent to-transparent blur-3xl opacity-40"></div>
+        {/* Background Layer */}
+        {/* HERO BACKGROUND */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+
+          {backgrounds.map((bg, i) => (
+            <div
+              key={bg}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${i === bgIndex ? "opacity-100" : "opacity-0"
+                }`}
+              style={{
+                backgroundImage: `url(${bg})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                transform: "scale(1.05)",
+              }}
+            />
+          ))}
+
+          {/* LIGHT MODE OVERLAY */}
+          <div className="absolute inset-0 bg-white/70 backdrop-blur-sm dark:hidden" />
+
+          {/* DARK MODE OVERLAY */}
+          <div className="absolute inset-0 hidden dark:block bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
+
         </div>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 lg:gap-8 items-start">
+        {/* Background Grid & Spotlights */}
+        {/* <div className="absolute inset-0 z-0 w-full h-full bg-background">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-[0.2]"></div>
+          <div className="absolute top-0 left-0 right-0 h-[500px] w-full bg-gradient-to-b from-primary/5 via-transparent to-transparent blur-3xl opacity-40"></div>
+        </div> */}
+        <div className="relative min-h-[80vh] overflow-hidden">
 
-          {/* Left Column: Text & CTAs */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8">
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 lg:gap-8 items-start">
 
-            {/* Social Proof Pill (Left Aligned) */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-              Trusted by 10,000+ Traders
-            </div>
+            {/* Left Column: Text & CTAs */}
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8">
 
-            {/* Main Heading */}
-            {/* Main Heading */}
-            <div className="relative">
+              {/* Social Proof Pill (Left Aligned) */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                Trusted by 10,000+ Traders
+              </div>
 
-              <h1 className="font-heading font-bold tracking-tight text-foreground leading-tight max-w-4xl">
+              {/* Main Heading */}
+              {/* Main Heading */}
+              <div className="relative">
 
-                {/* First Line */}
-                <span className="block text-4xl sm:text-6xl md:text-7xl">
-                  Trade Smarter.
-                </span>
+                <h1 className="font-heading font-bold tracking-tight text-foreground leading-tight max-w-4xl">
 
-                {/* Second Line Animated */}
-                <span className="block mt-2 h-[1.2em] overflow-hidden text-3xl sm:text-5xl md:text-6xl">
-
-                  <span className="inline-flex items-center whitespace-nowrap">
-                    <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                      {displayText}
-                    </span>
-                    <span className="ml-2 w-[3px] h-[1em] bg-primary animate-pulse"></span>
+                  {/* First Line */}
+                  <span className="block text-4xl sm:text-6xl md:text-7xl">
+                    Trade Smarter.
                   </span>
 
-                </span>
+                  {/* Second Line Animated */}
+                  <span className="block mt-2 h-[1.2em] overflow-hidden text-3xl sm:text-5xl md:text-6xl">
 
-              </h1>
+                    <span className="inline-flex items-center whitespace-nowrap">
+                      <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                        {displayText}
+                      </span>
+                      <span className="ml-2 w-[3px] h-[1em] bg-primary animate-pulse"></span>
+                    </span>
 
-              {/* Curvy Underline */}
-              <svg
-                className="hidden lg:block absolute w-[120%] h-4 -bottom-2 -left-4 text-primary/20 -z-10"
-                viewBox="0 0 100 10"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M0 5 Q 50 15 100 5"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                  fill="none"
-                />
-              </svg>
+                  </span>
 
-            </div>
+                </h1>
 
+                {/* Curvy Underline */}
+                <svg
+                  className="hidden lg:block absolute w-[120%] h-4 -bottom-2 -left-4 text-primary/20 -z-10"
+                  viewBox="0 0 100 10"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M0 5 Q 50 15 100 5"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                </svg>
 
-            {/* Subtext */}
-            <p className="max-w-[35rem] text-lg sm:text-xl text-muted-foreground leading-relaxed">
-              Institutional-grade signals delivered to your dashboard and mobile.
-              <span className="text-foreground font-medium"> 85% Win Rate</span> verified.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <Link href="/trial" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto h-14 px-8 rounded-full bg-primary text-primary-foreground font-bold shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all">
-                  Start Free Trial
-                </Button>
-              </Link>
-              <Link href="/market" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 rounded-full border-border/50 bg-background/50 backdrop-blur-sm hover:bg-muted font-semibold group">
-                  View Performance <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-            </div>
-
-            {/* Live Tech Stats Strip */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 text-[10px] uppercase tracking-widest text-muted-foreground font-mono opacity-80 border-t border-border/50 pt-6 w-full">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                System Latency: 12ms
               </div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse delay-75"></span>
-                AI Scanning: Active
+
+
+              {/* Subtext */}
+              <p className="max-w-[35rem] text-lg sm:text-xl text-muted-foreground leading-relaxed">
+                Institutional-grade signals delivered to your dashboard and mobile.
+                <span className="text-foreground font-medium"> 85% Win Rate</span> verified.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <Link href="/trial" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto h-14 px-8 rounded-full bg-primary text-primary-foreground font-bold shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all">
+                    Start Free Trial
+                  </Button>
+                </Link>
+                <Link href="/market" className="w-full sm:w-auto">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 rounded-full border-border/50 bg-background/50 backdrop-blur-sm hover:bg-muted font-semibold group">
+                    View Performance <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-foreground/50"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74 1.18 0 2.21-.93 3.69-.93.95 0 1.88.34 2.67.93-2.43 1.5-2.05 5.56.44 6.59-.44 1.44-1.12 2.87-1.88 3.64zm-3.35-13.7c.56-1.5 2.53-2.62 4.41-2.5 0 1.78-1.78 3.59-4.41 2.5z" /></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-foreground/50"><path d="M3.5 19.5l4.5-8L3.5 19.5zm5.5-9.5l2.5-1.5L9 8.5zM12 2l-9 16 9 4 9-4L12 2zm1 18.5l-2.5-1.5L13 17l-2.5 2z" /></svg>
+
+              {/* Live Tech Stats Strip */}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 text-[10px] uppercase tracking-widest text-muted-foreground font-mono opacity-80 border-t border-border/50 pt-6 w-full">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                  System Latency: 12ms
                 </div>
-                <span className="text-xs">App Available</span>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse delay-75"></span>
+                  AI Scanning: Active
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-2">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-foreground/50"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74 1.18 0 2.21-.93 3.69-.93.95 0 1.88.34 2.67.93-2.43 1.5-2.05 5.56.44 6.59-.44 1.44-1.12 2.87-1.88 3.64zm-3.35-13.7c.56-1.5 2.53-2.62 4.41-2.5 0 1.78-1.78 3.59-4.41 2.5z" /></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-foreground/50"><path d="M3.5 19.5l4.5-8L3.5 19.5zm5.5-9.5l2.5-1.5L9 8.5zM12 2l-9 16 9 4 9-4L12 2zm1 18.5l-2.5-1.5L13 17l-2.5 2z" /></svg>
+                  </div>
+                  <span className="text-xs">App Available</span>
+                </div>
               </div>
             </div>
-          </div>
-          {/* Right Column: Hero Image */}
-          <div className="relative w-full flex items-center justify-center lg:justify-end">
-            <div className="relative w-full max-w-lg lg:sticky lg:top-24">
+            {/* Right Column: Hero Image */}
+            <div className="relative w-full flex items-center justify-center lg:justify-end">
+              <div className="relative w-full max-w-lg lg:sticky lg:top-24">
 
-              <Image
-                src="/images/home.jpg"
-                alt="MSPK Trading Dashboard"
-                width={900}
-                height={700}
-                className="w-full h-auto rounded-3xl shadow-2xl border border-border/60"
-                priority
-              />
+                <Image
+                  src="/images/home.jpg"
+                  alt="MSPK Trading Dashboard"
+                  width={900}
+                  height={700}
+                  className="w-full h-auto rounded-3xl shadow-2xl border border-border/60"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Dashboard Preivew (Moved Below Split Hero) */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 mt-8 lg:mt-0 flex flex-col items-center gap-10 text-center">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 mt-16 lg:mt-12 flex flex-col items-center gap-10 text-center">
+
           {/* High-Fidelity Dashboard Mockup (Flat & Premium) */}
           <div className="relative w-full max-w-7xl mx-auto px-3 group mt-8">
             {/* Glow Effect */}
@@ -672,13 +716,17 @@ export default function Home() {
       {/* Testimonials - Social Proof */}
       <section className="w-full max-w-7xl mx-auto px-4 py-32 relative z-10 overflow-hidden">
         {/* Background ambient lighting */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1000px] bg-gradient-to-b from-primary/5 via-transparent to-transparent -z-10 pointer-events-none"></div>
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[120px] rounded-full" />
+        </div>
 
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-32">
           <div className="text-left max-w-4xl">
             <h2 className="text-5xl md:text-7xl font-heading font-bold tracking-tighter text-foreground leading-[1.1]">
               Trusted by <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary animate-gradient-x">10,000+ Traders</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/60 to-primary animate-gradient-x">
+                10,000+ Traders
+              </span>
             </h2>
           </div>
           <div className="flex flex-col items-start md:items-end gap-6 w-full md:w-auto">
@@ -692,52 +740,169 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 text-left">
-          {/* Testimonial 1 */}
-          <div className="p-8 rounded-3xl bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 hover:-translate-y-2 transition-transform duration-300 hover:border-amber-500/30 hover:shadow-2xl hover:shadow-amber-500/5 group">
-            <div className="flex gap-1 mb-6">
-              {[1, 2, 3, 4, 5].map(s => <div key={s} className="w-5 h-5 text-amber-500 fill-current"><svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg></div>)}
-            </div>
-            <p className="text-lg text-slate-600 dark:text-gray-300 italic mb-8 leading-relaxed">"Finally a signal provider that is transparent with their P&L. I've recovered my past losses in just 2 months using the Pro plan."</p>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white font-bold text-lg">RS</div>
-              <div>
-                <div className="font-bold text-foreground">Rahul S.</div>
-                <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Pro Trader • Mumbai</div>
-              </div>
-            </div>
-          </div>
+        {/* Premium Infinite Testimonials */}
+        <div className="relative w-full overflow-hidden py-12">
 
-          {/* Testimonial 2 */}
-          <div className="p-8 rounded-3xl bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 hover:-translate-y-2 transition-transform duration-300 hover:border-amber-500/30 hover:shadow-2xl hover:shadow-amber-500/5 group">
-            <div className="flex gap-1 mb-6">
-              {[1, 2, 3, 4, 5].map(s => <div key={s} className="w-5 h-5 text-amber-500 fill-current"><svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg></div>)}
-            </div>
-            <p className="text-lg text-slate-600 dark:text-gray-300 italic mb-8 leading-relaxed">"The latency is practically non-existent. Executing strategies via their API feels like having a direct line to the exchange."</p>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white font-bold text-lg">PM</div>
-              <div>
-                <div className="font-bold text-foreground">Priya M.</div>
-                <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Algo Developer • Bangalore</div>
-              </div>
-            </div>
-          </div>
+          {/* Soft fade edges */}
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-background to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-background to-transparent z-10" />
 
-          {/* Testimonial 3 */}
-          <div className="p-8 rounded-3xl bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 hover:-translate-y-2 transition-transform duration-300 hover:border-amber-500/30 hover:shadow-2xl hover:shadow-amber-500/5 group">
-            <div className="flex gap-1 mb-6">
-              {[1, 2, 3, 4, 5].map(s => <div key={s} className="w-5 h-5 text-amber-500 fill-current"><svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg></div>)}
+          <div className="marquee">
+
+            {/* First Group */}
+            <div className="marquee-group flex gap-8">
+
+              {[
+                {
+                  name: "Rahul S.",
+                  role: "Pro Trader • Mumbai",
+                  text: "Recovered my past losses in 2 months. Transparent P&L reporting changed everything.",
+                  initials: "RS",
+                  color: "from-amber-400 to-orange-500"
+                },
+                {
+                  name: "Priya M.",
+                  role: "Algo Developer • Bangalore",
+                  text: "Execution feels like direct exchange connectivity.",
+                  initials: "PM",
+                  color: "from-blue-400 to-indigo-500"
+                },
+                {
+                  name: "Arjun K.",
+                  role: "Swing Trader • Delhi",
+                  text: "No repainting. What you see live is real.",
+                  initials: "AK",
+                  color: "from-green-400 to-emerald-500"
+                },
+                {
+                  name: "Sneha T.",
+                  role: "Options Trader • Pune",
+                  text: "Multi-channel alerts keep me ahead daily.",
+                  initials: "ST",
+                  color: "from-purple-400 to-violet-500"
+                },
+                {
+                  name: "Vikram P.",
+                  role: "Full-Time Trader • Hyderabad",
+                  text: "Analytics refined my strategy massively.",
+                  initials: "VP",
+                  color: "from-cyan-400 to-blue-500"
+                },
+                {
+                  name: "Neha D.",
+                  role: "Intraday Trader • Jaipur",
+                  text: "Clean UI. Real performance. Zero noise.",
+                  initials: "ND",
+                  color: "from-sky-400 to-indigo-400"
+                }
+              ].map((review, i) => (
+                <div
+                  key={`first-${i}`}
+                  className="flex-shrink-0 w-[300px] sm:w-[380px] md:w-[420px] p-8 rounded-3xl bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-black/5 dark:border-white/10 shadow-lg"
+                >
+                  <p className="text-base text-slate-700 dark:text-white/80 italic mb-8 leading-relaxed">
+                    "{review.text}"
+                  </p>
+
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${review.color} flex items-center justify-center text-white font-bold`}>
+                      {review.initials}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-foreground">
+                        {review.name}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {review.role}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
             </div>
-            <p className="text-lg text-slate-600 dark:text-gray-300 italic mb-8 leading-relaxed">"Most services repaint their signals, but these guys are legit. What you see on the dashboard is exactly what happened live."</p>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-lg">AK</div>
-              <div>
-                <div className="font-bold text-foreground">Arjun K.</div>
-                <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Swing Trader • Delhi</div>
-              </div>
+
+            {/* Second Group (Duplicate for seamless loop) */}
+            <div className="marquee-group flex gap-8">
+
+              {[
+                {
+                  name: "Rahul S.",
+                  role: "Pro Trader • Mumbai",
+                  text: "Recovered my past losses in 2 months. Transparent P&L reporting changed everything.",
+                  initials: "RS",
+                  color: "from-amber-400 to-orange-500"
+                },
+                {
+                  name: "Priya M.",
+                  role: "Algo Developer • Bangalore",
+                  text: "Execution feels like direct exchange connectivity.",
+                  initials: "PM",
+                  color: "from-blue-400 to-indigo-500"
+                },
+                {
+                  name: "Arjun K.",
+                  role: "Swing Trader • Delhi",
+                  text: "No repainting. What you see live is real.",
+                  initials: "AK",
+                  color: "from-green-400 to-emerald-500"
+                },
+                {
+                  name: "Sneha T.",
+                  role: "Options Trader • Pune",
+                  text: "Multi-channel alerts keep me ahead daily.",
+                  initials: "ST",
+                  color: "from-purple-400 to-violet-500"
+                },
+                {
+                  name: "Vikram P.",
+                  role: "Full-Time Trader • Hyderabad",
+                  text: "Analytics refined my strategy massively.",
+                  initials: "VP",
+                  color: "from-cyan-400 to-blue-500"
+                },
+                {
+                  name: "Neha D.",
+                  role: "Intraday Trader • Jaipur",
+                  text: "Clean UI. Real performance. Zero noise.",
+                  initials: "ND",
+                  color: "from-sky-400 to-indigo-400"
+                }
+              ].map((review, i) => (
+                <div
+                  key={`second-${i}`}
+                  className="flex-shrink-0 w-[300px] sm:w-[380px] md:w-[420px] p-8 rounded-3xl bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-black/5 dark:border-white/10 shadow-lg"
+                >
+                  <p className="text-base text-slate-700 dark:text-white/80 italic mb-8 leading-relaxed">
+                    "{review.text}"
+                  </p>
+
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${review.color} flex items-center justify-center text-white font-bold`}>
+                      {review.initials}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-foreground">
+                        {review.name}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {review.role}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
             </div>
+
           </div>
         </div>
+
+
+
+
+
+
       </section>
     </div >
   );
