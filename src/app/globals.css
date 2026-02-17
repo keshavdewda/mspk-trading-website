@@ -188,41 +188,44 @@
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   }
 
-  .typewriter {
+  .typewriter-loop {
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     border-right: 0.12em solid hsl(var(--primary));
     width: max-content;
     max-width: 0;
-    animation: mspk-typing 2.8s steps(22, end) 0.4s both, mspk-caret 2.8s steps(1, end) 0.4s both;
+    animation: mspk-typing-loop 7.2s steps(24, end) 0.4s infinite,
+      mspk-caret-loop 7.2s steps(1, end) 0.4s infinite;
   }
 
-  @keyframes mspk-typing {
-    from {
-      max-width: 0;
-    }
-    to {
-      max-width: 100%;
-    }
+  @keyframes mspk-typing-loop {
+    0% { max-width: 0; }
+    35% { max-width: 100%; }
+    68% { max-width: 100%; }
+    100% { max-width: 0; }
   }
 
-  @keyframes mspk-caret {
+  @keyframes mspk-caret-loop {
     0% { border-color: hsl(var(--primary)); }
-    10% { border-color: transparent; }
+    5% { border-color: transparent; }
+    10% { border-color: hsl(var(--primary)); }
+    15% { border-color: transparent; }
     20% { border-color: hsl(var(--primary)); }
-    30% { border-color: transparent; }
-    40% { border-color: hsl(var(--primary)); }
-    50% { border-color: transparent; }
-    60% { border-color: hsl(var(--primary)); }
-    70% { border-color: transparent; }
-    80% { border-color: hsl(var(--primary)); }
-    90% { border-color: transparent; }
+    25% { border-color: transparent; }
+    30% { border-color: hsl(var(--primary)); }
+    35% { border-color: transparent; }
+    68% { border-color: transparent; }
+    73% { border-color: hsl(var(--primary)); }
+    78% { border-color: transparent; }
+    83% { border-color: hsl(var(--primary)); }
+    88% { border-color: transparent; }
+    93% { border-color: hsl(var(--primary)); }
     100% { border-color: transparent; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .typewriter {
+    .typewriter-loop {
       animation: none;
       border-right: 0;
       width: auto;

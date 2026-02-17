@@ -1,15 +1,51 @@
 "use client";
-
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, TrendingUp, Lock, Zap, Shield, BarChart3, Clock, CheckCircle2, Wallet, Users } from "lucide-react";
 import { MOCK_SIGNALS, MOCK_STATS } from "@/lib/mock";
 import { MarketTicker } from "@/components/market-ticker";
 
+
 export default function Home() {
   const signals = MOCK_SIGNALS.slice(0, 3);
+  const fullText = "Make Informed Decisions.";
+  const typingSpeed = 70;
+  const pauseTime = 1500;
+
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
+    if (!isDeleting && index <= fullText.length) {
+      timeout = setTimeout(() => {
+        setDisplayText(fullText.substring(0, index));
+        setIndex(index + 1);
+      }, typingSpeed);
+    }
+    else if (!isDeleting && index > fullText.length) {
+      timeout = setTimeout(() => setIsDeleting(true), pauseTime);
+    }
+    else if (isDeleting && index >= 0) {
+      timeout = setTimeout(() => {
+        setDisplayText(fullText.substring(0, index));
+        setIndex(index - 1);
+      }, typingSpeed / 2);
+    }
+    else {
+      setIsDeleting(false);
+      setIndex(0);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [index, isDeleting]);
+
 
   return (
     <div className="flex flex-col min-h-screen font-sans">
@@ -24,7 +60,7 @@ export default function Home() {
           <div className="absolute top-0 left-0 right-0 h-[500px] w-full bg-gradient-to-b from-primary/5 via-transparent to-transparent blur-3xl opacity-40"></div>
         </div>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 lg:gap-8 items-start">
 
           {/* Left Column: Text & CTAs */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8">
@@ -36,18 +72,46 @@ export default function Home() {
             </div>
 
             {/* Main Heading */}
+            {/* Main Heading */}
             <div className="relative">
-              <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-foreground leading-tight max-w-4xl">
-                Trade Smarter.{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/70">
-                  Make Informed Decisions.
+
+              <h1 className="font-heading font-bold tracking-tight text-foreground leading-tight max-w-4xl">
+
+                {/* First Line */}
+                <span className="block text-4xl sm:text-6xl md:text-7xl">
+                  Trade Smarter.
                 </span>
+
+                {/* Second Line Animated */}
+                <span className="block mt-2 h-[1.2em] overflow-hidden text-3xl sm:text-5xl md:text-6xl">
+
+                  <span className="inline-flex items-center whitespace-nowrap">
+                    <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                      {displayText}
+                    </span>
+                    <span className="ml-2 w-[3px] h-[1em] bg-primary animate-pulse"></span>
+                  </span>
+
+                </span>
+
               </h1>
-              {/* Decorative Underline */}
-              <svg className="hidden lg:block absolute w-[120%] h-4 -bottom-2 -left-4 text-primary/20 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
-                <path d="M0 5 Q 50 15 100 5" stroke="currentColor" strokeWidth="4" fill="none" />
+
+              {/* Curvy Underline */}
+              <svg
+                className="hidden lg:block absolute w-[120%] h-4 -bottom-2 -left-4 text-primary/20 -z-10"
+                viewBox="0 0 100 10"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M0 5 Q 50 15 100 5"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="none"
+                />
               </svg>
+
             </div>
+
 
             {/* Subtext */}
             <p className="max-w-[35rem] text-lg sm:text-xl text-muted-foreground leading-relaxed">
@@ -88,73 +152,19 @@ export default function Home() {
               </div>
             </div>
           </div>
+          {/* Right Column: Hero Image */}
+          <div className="relative w-full flex items-center justify-center lg:justify-end">
+            <div className="relative w-full max-w-lg lg:sticky lg:top-24">
 
-          {/* Right Column: Golden Fintech Ecosystem (Theme Aligned) */}
-          <div className="relative hidden lg:flex h-[600px] w-full items-center justify-end perspective-1000">
-            {/* Golden Glow Background */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-primary/20 blur-[130px] rounded-full opacity-60 animate-pulse-slow"></div>
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px] opacity-30"></div>
-
-            {/* Central "Master Strategy" Card */}
-            <div className="relative z-20 w-[380px] bg-card/40 backdrop-blur-xl border border-primary/20 rounded-[32px] shadow-2xl shadow-primary/5 p-6 transform hover:scale-[1.02] transition-transform duration-500 ease-out group">
-              {/* Premium header */}
-              <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                    <Zap className="w-5 h-5 fill-current" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Active Strategy</div>
-                    <div className="font-bold text-foreground text-lg">Golden Eagle</div>
-                  </div>
-                </div>
-                <div className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                  Live
-                </div>
-              </div>
-
-              {/* Main Chart Area */}
-              <div className="relative h-48 bg-gradient-to-b from-primary/5 to-transparent rounded-2xl border border-primary/10 overflow-hidden mb-6 group-hover:border-primary/30 transition-colors">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <svg className="w-full h-full p-4 overflow-visible" preserveAspectRatio="none">
-                    <path d="M0,100 C40,80 80,110 120,40 S200,60 240,10 V140 H0 Z" fill="url(#goldGradient)" className="opacity-30" />
-                    <path d="M0,100 C40,80 80,110 120,40 S200,60 240,10" fill="none" stroke="currentColor" strokeWidth="4" className="text-primary drop-shadow-md" />
-                    <defs>
-                      <linearGradient id="goldGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
-                        <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                    {/* Highlight Marker */}
-                    <circle cx="240" cy="10" r="6" className="fill-primary animate-ping opacity-75" />
-                    <circle cx="240" cy="10" r="4" className="fill-background stroke-primary stroke-2" />
-                  </svg>
-                </div>
-                <div className="absolute top-4 left-4">
-                  <div className="text-3xl font-bold text-primary tracking-tight">85%</div>
-                  <div className="text-[10px] font-bold text-muted-foreground uppercase">Win Rate</div>
-                </div>
-              </div>
-
-              {/* Performance Metrics */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-3 rounded-2xl bg-muted/50 border border-border flex flex-col items-center text-center hover:bg-muted/80 transition-colors">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase">Total Profit</span>
-                  <span className="text-lg font-bold text-green-500">+₹1.2L</span>
-                </div>
-                <div className="p-3 rounded-2xl bg-muted/50 border border-border flex flex-col items-center text-center hover:bg-muted/80 transition-colors">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase">Trades</span>
-                  <span className="text-lg font-bold text-foreground">1,240</span>
-                </div>
-              </div>
+              <Image
+                src="/images/home.jpg"
+                alt="MSPK Trading Dashboard"
+                width={900}
+                height={700}
+                className="w-full h-auto rounded-3xl shadow-2xl border border-border/60"
+                priority
+              />
             </div>
-
-
-            {/* Decorative Blur Circles */}
-            <div className="absolute top-20 left-10 w-24 h-24 bg-primary/20 rounded-full blur-2xl -z-10 animate-blob"></div>
-            <div className="absolute bottom-20 right-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl -z-10 animate-blob animation-delay-2000"></div>
-
           </div>
         </div>
 
@@ -732,3 +742,6 @@ export default function Home() {
     </div >
   );
 }
+
+
+
