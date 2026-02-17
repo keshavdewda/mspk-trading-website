@@ -1,0 +1,231 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+  --font-heading: 'Outfit', sans-serif;
+  --font-primary: 'Outfit', sans-serif;
+
+  /* Modern Fintech Dark */
+
+  --background: 222 47% 11%; /* #0B0F19 */
+  --foreground: 210 40% 90%; /* #E5E7EB */
+
+  --card: 222 35% 14%; /* #121826 */
+  --card-foreground: 210 40% 90%;
+
+  --popover: 222 47% 11%;
+  --popover-foreground: 210 40% 90%;
+
+  --primary: 221 83% 53%; /* #2563EB */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 222 30% 18%;
+  --secondary-foreground: 210 40% 90%;
+
+  --muted: 222 30% 18%;
+  --muted-foreground: 215 20% 65%;
+
+  --accent: 222 30% 18%;
+  --accent-foreground: 210 40% 90%;
+
+  --destructive: 0 70% 50%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 222 30% 20%;
+  --input: 222 35% 14%;
+  --ring: 221 83% 53%;
+
+  --radius: 0.75rem;
+}
+
+  /* --- THEMES --- */
+.light {
+  --background: 210 20% 98%;
+  --foreground: 222 47% 11%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 210 40% 90%;
+  --secondary-foreground: 222 47% 11%;
+
+  --muted: 210 40% 90%;
+  --muted-foreground: 215 20% 45%;
+
+  --accent: 210 40% 90%;
+  --accent-foreground: 222 47% 11%;
+
+  --border: 214 30% 85%;
+  --input: 0 0% 100%;
+  --ring: 221 83% 53%;
+}
+
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+  @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground;
+  font-family: var(--font-primary), sans-serif;
+  min-height: 100vh;
+}
+
+}
+
+@layer utilities {
+  .font-outfit {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .font-roboto {
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .font-poppins {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .font-lato {
+    font-family: 'Lato', sans-serif;
+  }
+
+  .font-playfair {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-space {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .font-fira {
+    font-family: 'Fira Code', monospace;
+  }
+
+  .font-oswald {
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .font-ubuntu {
+    font-family: 'Ubuntu', sans-serif;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px var(--tw-shadow-color);
+  }
+
+  .terminal-panel {
+    @apply bg-card border border-border shadow-none;
+  }
+
+  .font-mono-numbers {
+    @apply font-mono tabular-nums tracking-tight;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background border-l border-border;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 transition-colors rounded-none;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
+
+  .bg-cyber-grid {
+    background-size: 20px 20px;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  }
+
+  .bg-scanline {
+    background: linear-gradient(to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0) 50%,
+        rgba(0, 0, 0, 0.1) 50%,
+        rgba(0, 0, 0, 0.1));
+    background-size: 100% 4px;
+  }
+
+  .neon-border-b {
+    border-bottom: 1px solid theme('colors.primary.DEFAULT');
+    box-shadow: 0 4px 12px -4px theme('colors.primary.DEFAULT');
+  }
+
+  .text-glow-sm {
+    text-shadow: 0 0 5px currentColor;
+  }
+
+  .mask-linear-fade {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .typewriter {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 0.12em solid hsl(var(--primary));
+    width: max-content;
+    max-width: 0;
+    animation: mspk-typing 2.8s steps(22, end) 0.4s both, mspk-caret 2.8s steps(1, end) 0.4s both;
+  }
+
+  @keyframes mspk-typing {
+    from {
+      max-width: 0;
+    }
+    to {
+      max-width: 100%;
+    }
+  }
+
+  @keyframes mspk-caret {
+    0% { border-color: hsl(var(--primary)); }
+    10% { border-color: transparent; }
+    20% { border-color: hsl(var(--primary)); }
+    30% { border-color: transparent; }
+    40% { border-color: hsl(var(--primary)); }
+    50% { border-color: transparent; }
+    60% { border-color: hsl(var(--primary)); }
+    70% { border-color: transparent; }
+    80% { border-color: hsl(var(--primary)); }
+    90% { border-color: transparent; }
+    100% { border-color: transparent; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .typewriter {
+      animation: none;
+      border-right: 0;
+      width: auto;
+    }
+  }
+}
